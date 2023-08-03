@@ -1,0 +1,98 @@
+INFO: 2023/05/27 21:28:39 Reading configuration
+INFO: 2023/05/27 21:28:39 read application configuration
+INFO: 2023/05/27 21:28:39 Create router.
+INFO: 2023/05/27 21:28:39 Start application.
+INFO: 2023/05/27 21:28:39 Start server.
+INFO: 2023/05/27 23:43:46 Reading configuration
+INFO: 2023/05/27 23:43:46 Create router.
+INFO: 2023/05/27 23:43:46 Start application.
+INFO: 2023/05/27 23:43:46 Start server.
+INFO: 2023/05/28 15:08:55 Reading configuration
+INFO: 2023/05/28 15:08:55 Create router.
+INFO: 2023/05/28 15:08:55 Start application.
+INFO: 2023/05/28 15:08:55 listen tcp
+INFO: 2023/05/28 15:08:55 create structure of server
+INFO: 2023/05/28 15:08:55 Start server.
+INFO: 2023/05/28 15:39:59 Reading configuration
+INFO: 2023/05/28 15:39:59 Create router.
+INFO: 2023/05/28 15:39:59 Start application.
+INFO: 2023/05/28 15:39:59 create socket
+INFO: 2023/05/28 15:39:59 listen unix socket
+INFO: 2023/05/28 15:39:59 create structure of server
+INFO: 2023/05/28 15:39:59 Start server.
+INFO: 2023/05/28 15:41:23 Reading configuration
+INFO: 2023/05/28 15:41:23 Create router.
+INFO: 2023/05/28 15:41:23 Start application.
+INFO: 2023/05/28 15:41:23 create socket
+INFO: 2023/05/28 15:41:23 listen unix socket
+INFO: 2023/05/28 15:41:23 create structure of server
+INFO: 2023/05/28 15:41:23 Start server.
+INFO: 2023/05/28 15:42:14 Reading configuration
+INFO: 2023/05/28 15:42:14 Create router.
+INFO: 2023/05/28 15:42:14 Start application.
+INFO: 2023/05/28 15:42:14 create socket
+INFO: 2023/05/28 15:42:14 listen unix socket
+INFO: 2023/05/28 15:42:14 create structure of server
+INFO: 2023/05/28 15:42:14 Start server.
+INFO: 2023/05/28 15:45:11 Reading configuration
+INFO: 2023/05/28 15:45:11 Create router.
+INFO: 2023/05/28 15:45:11 Start application.
+INFO: 2023/05/28 15:45:11 create socket
+INFO: 2023/05/28 15:45:11 listen unix socket
+INFO: 2023/05/28 15:46:16 Reading configuration
+INFO: 2023/05/28 15:46:16 Create router.
+INFO: 2023/05/28 15:46:16 Start application.
+INFO: 2023/05/28 15:46:16 create socket
+INFO: 2023/05/28 15:46:16 listen unix socket
+INFO: 2023/05/28 15:46:16 create structure of server
+INFO: 2023/05/28 15:46:16 Start server.
+INFO: 2023/05/28 15:46:34 Reading configuration
+INFO: 2023/05/28 15:46:34 Create router.
+INFO: 2023/05/28 15:46:34 Start application.
+INFO: 2023/05/28 15:46:34 create socket
+INFO: 2023/05/28 15:46:34 listen unix socket
+INFO: 2023/05/28 15:46:34 create structure of server
+INFO: 2023/05/28 15:46:34 Start server.
+INFO: 2023/05/28 15:46:38 Reading configuration
+INFO: 2023/05/28 15:46:38 Create router.
+INFO: 2023/05/28 15:46:38 Start application.
+INFO: 2023/05/28 15:46:38 create socket
+INFO: 2023/05/28 15:46:38 listen unix socket
+INFO: 2023/05/28 15:46:50 Reading configuration
+INFO: 2023/05/28 15:46:50 Create router.
+INFO: 2023/05/28 15:46:50 Start application.
+INFO: 2023/05/28 15:46:50 create socket
+INFO: 2023/05/28 15:46:50 listen unix socket
+INFO: 2023/05/28 15:46:50 create structure of server
+INFO: 2023/05/28 15:46:50 Start server.
+INFO: 2023/05/28 15:46:53 Reading configuration
+INFO: 2023/05/28 15:46:53 Create router.
+INFO: 2023/05/28 15:46:53 Start application.
+INFO: 2023/05/28 15:46:53 create socket
+INFO: 2023/05/28 15:46:53 listen unix socket
+INFO: 2023/05/28 15:46:53 create structure of server
+INFO: 2023/05/28 15:46:53 Start server.
+INFO: 2023/05/28 19:44:06 Reading configuration
+INFO: 2023/05/28 19:44:06 Create router.
+INFO: 2023/05/28 19:44:06 Start application.
+INFO: 2023/05/28 19:44:06 create socket
+INFO: 2023/05/28 19:44:06 listen unix socket
+INFO: 2023/05/28 19:44:06 create structure of server
+INFO: 2023/05/28 19:44:06 Start server.
+INFO: 2023/05/28 19:48:44 Reading configuration
+INFO: 2023/05/28 19:48:44 Create router.
+INFO: 2023/05/28 19:48:44 Start application.
+INFO: 2023/05/28 19:48:44 create socket
+INFO: 2023/05/28 19:48:44 listen unix socket
+INFO: 2023/05/28 19:48:44 create structure of server
+INFO: 2023/05/28 19:48:44 Start server.
+INFO: 2023/05/28 20:14:16 Reading configuration
+INFO: 2023/05/28 20:14:16 Configuration loaded.
+INFO: 2023/05/28 20:14:16 Create router.
+INFO: 2023/05/28 20:14:16 Start application.
+INFO: 2023/05/28 20:14:16 Start server.
+INFO: 2023/05/28 20:53:14 Reading configuration
+INFO: 2023/05/28 20:53:14 Configuration loaded.
+INFO: 2023/05/28 20:53:14 Create router.
+INFO: 2023/05/28 20:53:14 Start application.
+INFO: 2023/05/28 20:53:14 Start server.

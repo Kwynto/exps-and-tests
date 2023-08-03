@@ -1,0 +1,2 @@
+CRITICAL: 2023/05/28 15:45:11 Not create listener: %v listen unix /home/kwynto/Programing/rest-api/app.sock: bind: address already in use
+CRITICAL: 2023/05/28 15:46:38 Not create listener: %v listen unix /home/kwynto/Programing/rest-api/app.sock: bind: address already in use

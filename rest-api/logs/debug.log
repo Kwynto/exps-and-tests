@@ -1,0 +1,34 @@
+DEBUG: 2023/05/27 23:43:46 read application configuration
+DEBUG: 2023/05/28 15:08:55 read application configuration
+DEBUG: 2023/05/28 15:39:59 read application configuration
+DEBUG: 2023/05/28 15:39:59 socket path: /tmp/go-build2518602604/b001/exe/app.sock
+DEBUG: 2023/05/28 15:41:23 read application configuration
+DEBUG: 2023/05/28 15:41:23 socket path: /home/kwynto/Programing/rest-api/app.sock
+DEBUG: 2023/05/28 15:42:14 read application configuration
+DEBUG: 2023/05/28 15:42:14 socket path: /tmp/go-build2990868480/b001/exe/app.sock
+DEBUG: 2023/05/28 15:45:11 read application configuration
+DEBUG: 2023/05/28 15:45:11 socket path: /home/kwynto/Programing/rest-api/app.sock
+DEBUG: 2023/05/28 15:46:16 read application configuration
+DEBUG: 2023/05/28 15:46:16 socket path: /home/kwynto/Programing/rest-api/app.sock
+DEBUG: 2023/05/28 15:46:34 read application configuration
+DEBUG: 2023/05/28 15:46:34 socket path: /home/kwynto/Programing/rest-api/app.sock
+DEBUG: 2023/05/28 15:46:38 read application configuration
+DEBUG: 2023/05/28 15:46:38 socket path: /home/kwynto/Programing/rest-api/app.sock
+DEBUG: 2023/05/28 15:46:50 read application configuration
+DEBUG: 2023/05/28 15:46:50 socket path: /tmp/go-build2622158089/b001/exe/app.sock
+DEBUG: 2023/05/28 15:46:53 read application configuration
+DEBUG: 2023/05/28 15:46:53 socket path: /tmp/go-build2021241510/b001/exe/app.sock
+DEBUG: 2023/05/28 19:44:06 read application configuration
+DEBUG: 2023/05/28 19:44:06 socket path: /tmp/go-build2670996579/b001/exe/app.sock
+DEBUG: 2023/05/28 19:48:44 read application configuration
+DEBUG: 2023/05/28 19:48:44 socket path: /tmp/go-build1205269891/b001/exe/app.sock
+DEBUG: 2023/05/28 20:14:16 read application configuration
+DEBUG: 2023/05/28 20:14:16 create socket
+DEBUG: 2023/05/28 20:14:16 socket path: /tmp/go-build504491467/b001/exe/app.sock
+DEBUG: 2023/05/28 20:14:16 listen unix socket
+DEBUG: 2023/05/28 20:14:16 create structure of server
+DEBUG: 2023/05/28 20:53:14 read application configuration
+DEBUG: 2023/05/28 20:53:14 create socket
+DEBUG: 2023/05/28 20:53:14 socket path: /tmp/go-build615615006/b001/exe/app.sock
+DEBUG: 2023/05/28 20:53:14 listen unix socket
+DEBUG: 2023/05/28 20:53:14 create structure of server
