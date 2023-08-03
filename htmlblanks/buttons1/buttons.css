@@ -1,0 +1,190 @@
+body {
+    background-color: #343434;
+}
+
+.container {
+    margin-top: 35vh;
+    text-align: center;
+    max-width: 40em;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+}
+
+.button {
+    margin: 1em;
+    border-radius: 10px;
+    padding: 0.5em;
+    width: 8em;
+    height: 2.5em;
+    font-size: 1em;
+    color: white;
+    border: none;
+}
+
+.btn1 {
+    background: linear-gradient(-45deg, red, orange, yellow);
+}
+
+.btn2 {
+    background: linear-gradient(-45deg, #0aa98e, #32ff54);
+}
+.btn2:hover {
+    background: linear-gradient(45deg, #0aa98e, #32ff54);
+}
+
+.btn3 {
+    background: linear-gradient(-45deg, #4343de, #4354c9);
+    box-shadow: 0 5px 30px #3554c9, 0 -5px 30px #3454c9;
+}
+
+.btn4 {
+    background: transparent;
+    border: 2px solid #cd4565;
+    color: #cd4565;
+}
+
+.btn5 {
+    background-image: linear-gradient(to right, #0aa98f, #49ff78);
+    font-weight: 900;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    box-shadow: 5px 5px 30px #0aa98e, -5px -5px 30px #0aa98e;
+}
+
+.btn6 {
+    background: transparent;
+    border-style: solid;
+    animation: rotate 2s infinite;
+    border-color: #ed0eed #3454c9;
+    color: blueviolet;
+}
+@keyframes rotate {
+    50% {
+        border-color: #3454c9 #ed0eed;
+    }
+    100% {
+        border-color: #ed0eed #3454c9;
+    }
+}
+
+.btn7 {
+    background-color: #efe;
+    color: #232332;
+    box-shadow: 7.5px 10px 5px #787878;
+}
+
+.btn8 {
+    background-color:  #222;
+    box-shadow: 5px 5px 5px #121212, -5px -5px 5px #323232;
+}
+.btn8:hover {
+    box-shadow: 5px 5px 5px #121212 inset, -5px -5px 5px #212121 inset;
+}
+
+/* Steel buttons */
+
+.btn-red {
+    background: linear-gradient(-45deg, red, orange, yellow);
+    box-shadow: 5px 5px 5px #121212, -5px -5px 5px #323232;
+    transition: 0.5s;
+}
+.btn-red:hover {
+    background: linear-gradient(-135deg, yellow, orange, red);
+    box-shadow: 0 5px 30px yellow, 0 -5px 30px red;
+}
+
+.btn-green {
+    background: linear-gradient(-45deg, #0aa98e, #32ff54);
+    box-shadow: 5px 5px 5px #121212, -5px -5px 5px #323232;
+    transition: 0.5s;
+}
+.btn-green:hover {
+    background: linear-gradient(45deg, #0aa98e, #32ff54);
+    box-shadow: 0 5px 30px #0aa98e, 0 -5px 30px #32ff54;
+}
+
+.btn-blue {
+    background: linear-gradient(-45deg, #4354c9, #8484fa);
+    box-shadow: 5px 5px 5px #121212, -5px -5px 5px #323232;
+    transition: 0.5s;
+}
+.btn-blue:hover {
+    background: linear-gradient(45deg, #4354c9, #8484fa);
+    box-shadow: 0 5px 30px #3454c9, 0 -5px 30px #3554c9;
+}
+
+.btn-light {
+    color: #232332;
+    background: linear-gradient(-45deg, #cdd0e7, #f9f9fa);
+    box-shadow: 5px 5px 5px #121212, -5px -5px 5px #323232;
+    transition: 0.5s;
+}
+.btn-light:hover {
+    background: linear-gradient(45deg, #cdd0e7, #f9f9fa);
+    box-shadow: 0 5px 30px #fafafa, 0 -5px 30px #fafafa;
+}
+
+.btn-dark {
+    background: linear-gradient(-45deg, #181a22, #3c3c3d);
+    box-shadow: 5px 5px 5px #121212, -5px -5px 5px #323232;
+    transition: 0.5s;
+}
+.btn-dark:hover {
+    background: linear-gradient(45deg, #181a22, #3c3c3d);
+    box-shadow: 0 5px 30px #050505, 0 -5px 30px #050505;
+}
+
+/* Modern buttons */
+
+.modern-btn-red {
+    background: red;
+    border: 1px solid black;
+    border-radius: 3px;
+    transition: 0.3s;
+}
+.modern-btn-red:hover {
+    border-radius: 30px;
+}
+
+.modern-btn-green {
+    background: #32ff54;
+    border: 1px solid black;
+    border-radius: 3px;
+    transition: 0.3s;
+}
+.modern-btn-green:hover {
+    border-radius: 30px;
+}
+
+.modern-btn-blue {
+    background: blue;
+    border: 1px solid #000000;
+    border-radius: 3px;
+    transition: 0.3s;
+}
+.modern-btn-blue:hover {
+    border-radius: 30px;
+}
+
+.modern-btn-light {
+    background: #f9f9fa;
+    color: black;
+    border: 1px solid black;
+    border-radius: 3px;
+    transition: 0.3s;
+}
+.modern-btn-light:hover {
+    border-radius: 30px;
+}
+
+.modern-btn-dark {
+    background: #181a22;
+    border: 1px solid white;
+    border-radius: 3px;
+    transition: 0.3s;
+}
+.modern-btn-dark:hover {
+    border-radius: 30px;
+}
