@@ -14,6 +14,8 @@ type Record struct {
 	Random int    `json:"random"`
 }
 
+var offset int64 = 0
+
 func main() {
 	if len(os.Args) < 2 {
 		fmt.Println("Need a Kafka topic name.")
@@ -32,9 +34,10 @@ func main() {
 			MinBytes:  10e3,
 			MaxBytes:  10e6,
 		})
-	r.SetOffset(0)
+	// r.SetOffset(offset)
 
 	for {
+		r.SetOffset(offset)
 		m, err := r.ReadMessage(context.Background())
 		if err != nil {
 			break
@@ -47,6 +50,7 @@ func main() {
 			fmt.Println(err)
 		}
 		fmt.Printf("%T\n", temp)
+		offset++
 	}
 
 	r.Close()
