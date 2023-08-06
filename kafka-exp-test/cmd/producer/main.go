@@ -60,7 +60,8 @@ func main() {
 			fmt.Print(".")
 		}
 
-		time.Sleep(10 * time.Millisecond)
+		// time.Sleep(10 * time.Millisecond)
+		time.Sleep(4 * time.Second)
 	}
 
 	fmt.Println()
