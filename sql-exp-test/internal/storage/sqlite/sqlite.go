@@ -33,30 +33,63 @@ func New(path string) (*Storage, error) {
 func (s *Storage) Init(ctx context.Context) error {
 	const operation = "storage.sqlite.Init"
 
-	qry, err := s.db.Prepare(`
-	CREATE TABLE IF NOT EXISTS pages(
+	query, err := s.db.Prepare(`
+	CREATE TABLE IF NOT EXISTS entities(
 		id INTEGER PRIMARY KEY,
-		url TEXT NOT NULL,
-		username TEXT NOT NULL);
+		name TEXT NOT NULL,
+		value DOUBLE
+		description TEXT,
+		flag BOOL);
 	`)
 
 	if err != nil {
 		return e.Wrap(operation, err)
 	}
 
-	if _, err = qry.Exec(); err != nil {
+	if _, err = query.Exec(); err != nil {
 		return e.Wrap(operation, err)
 	}
 
 	return nil
 }
 
-// Save saves page to storage.
-func (s *Storage) Save(ctx context.Context, p *storage.Page) error {
-	const operation = "storage.sqlite.Save"
+// Create entity to storage.
+func (s *Storage) Create(ctx context.Context, entity *storage.Entities) (int64, error) {
+	const operation = "storage.sqlite.Create"
 
-	q := `INSERT INTO pages (url, username) VALUES (?, ?)`
-	_, err := s.db.ExecContext(ctx, q, p.URL, p.UserName)
+	query := `INSERT INTO entities (name, value, description, flag) VALUES (?, ?, ?, ?);`
+	result, err := s.db.ExecContext(ctx, query, entity.Name, entity.Value, entity.Description, entity.Flag)
+	if err != nil {
+		return 0, e.Wrap(operation, err)
+	}
+	id, err := result.LastInsertId()
+	if err != nil {
+		return 0, e.Wrap(operation, err)
+	}
+	return id, nil
+}
+
+// Read entity from storage
+func (s *Storage) Read(ctx context.Context, id int64) (*storage.Entities, error) {
+	const operation = "storage.sqlite.Read"
+
+	var entity storage.Entities
+
+	query := `SELECT * FROM entities WHERE id = ? LIMIT 1;`
+	err := s.db.QueryRowContext(ctx, query, id).Scan(&entity)
+	if err != nil {
+		return nil, e.Wrap(operation, err)
+	}
+
+	return &entity, nil
+}
+
+// Update entity to storage
+func (s *Storage) Update(ctx context.Context, entity *storage.Entities) error {
+	const operation = "storage.sqlite.Update"
+
+	query := `UPDATE entities SET (name, value, description, flag) VALUES (?, ?, ?, ?) WHERE id = ?;`
+	_, err := s.db.ExecContext(ctx, query, entity.Name, entity.Value, entity.Description, entity.Flag, entity.Id)
 	if err != nil {
 		return e.Wrap(operation, err)
 	}
@@ -64,26 +97,38 @@ func (s *Storage) Save(ctx context.Context, p *storage.Page) error {
 	return nil
 }
 
-// Remove page from storage.
-func (s *Storage) Remove(ctx context.Context, p *storage.Page) error {
-	const operation = "storage.sqlite.Remove"
+// Remove entity from storage by entity.
+func (s *Storage) Delete(ctx context.Context, entity *storage.Entities) error {
+	const operation = "storage.sqlite.Delete"
 
-	q := `DELETE FROM pages WHERE url = ? AND username = ?`
-	_, err := s.db.ExecContext(ctx, q, p.URL, p.UserName)
+	query := `DELETE FROM entities WHERE name = ?;`
+	_, err := s.db.ExecContext(ctx, query, entity.Name)
 	if err != nil {
 		return e.Wrap(operation, err)
 	}
 	return nil
 }
 
-// IsExists checks if page exists in storage.
-func (s *Storage) IsExists(ctx context.Context, p *storage.Page) (bool, error) {
+// Remove entity from storage by Id
+func (s *Storage) DeleteId(ctx context.Context, id int64) error {
+	const operation = "storage.sqlite.DeleteId"
+
+	query := `DELETE FROM entities WHERE id = ?;`
+	_, err := s.db.ExecContext(ctx, query, id)
+	if err != nil {
+		return e.Wrap(operation, err)
+	}
+	return nil
+}
+
+// IsExists checks if entity exists in storage.
+func (s *Storage) IsExists(ctx context.Context, entity *storage.Entities) (bool, error) {
 	const operation = "storage.sqlite.IsExists"
 
 	var count int
 
-	q := `SELECT COUNT(*) FROM pages WHERE url = ? AND username = ?`
-	err := s.db.QueryRowContext(ctx, q, p.URL, p.UserName).Scan(&count)
+	query := `SELECT COUNT(*) FROM entities WHERE name = ?;`
+	err := s.db.QueryRowContext(ctx, query, entity.Name).Scan(&count)
 	if err != nil {
 		return false, e.Wrap(operation, err)
 	}
