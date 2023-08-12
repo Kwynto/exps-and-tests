@@ -20,7 +20,7 @@ func Run(ctx context.Context, db storage.Storage) {
 	{
 		id, err := db.Create(ctx, &ent01)
 		if err != nil {
-			log.Fatalln("Create failed")
+			log.Fatalln("Create failed", "Error:", err)
 		}
 		ent01.Id = id
 	}
@@ -77,7 +77,7 @@ func Run(ctx context.Context, db storage.Storage) {
 	{
 		id, err := db.Create(ctx, &ent01)
 		if err != nil {
-			log.Fatalln("Create failed")
+			log.Fatalln("Create failed", "Error:", err)
 		}
 		ent01.Id = id
 	}

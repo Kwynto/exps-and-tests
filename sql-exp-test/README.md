@@ -5,22 +5,55 @@ This is an experimental repository.
 
 ## MySQL
 
-`docker pull mysql/mysql-server:latest` 
+```bash
+docker pull mysql/mysql-server:latest
+``` 
 
-`docker run -p 3306:3306 -d --name=mysql mysql/mysql-server:latest` 
+```bash
+docker run -p 3306:3306 -d --name=mysql mysql/mysql-server:latest`
+``` 
  
-`docker logs mysql` 
+```bash
+docker logs mysql
+``` 
 
 You need to find the generated password and copy it. 
 
-`docker exec -it mysql bash` 
+```bash
+docker exec -it mysql bash
+``` 
 
-`mysql -uroot -p` 
+```bash
+mysql -uroot -p
+``` 
 
-`ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';` 
+```mysql
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';
+update mysql.user set host='%' where user='root' and host='localhost';
+flush privileges;
+```
 
-`update mysql.user set host='%' where user='root' and host='localhost';` 
+And restart the docker container! 
 
-`flush privileges;` 
+```mysql
+create database entities;
+```
 
-And restart the docker container!
+and 
+
+```mysql
+show databases;
+```
+
+This is end setings. 
+
+You should run 
+```bash
+MYSQL_PASSWORD=root go run ./cmd/mysql/main.go
+```
+
+
+## PostgreSQL
+
+
+
