@@ -42,7 +42,7 @@ func (s *Storage) Init(ctx context.Context) error {
 
 	query, err := s.db.Prepare(`
 	CREATE TABLE IF NOT EXISTS entities(
-		id INTEGER PRIMARY KEY,
+		id INTEGER PRIMARY KEY AUTO_INCREMENT,
 		name TEXT NOT NULL,
 		value DOUBLE,
 		description TEXT,
@@ -64,7 +64,7 @@ func (s *Storage) Init(ctx context.Context) error {
 func (s *Storage) Create(ctx context.Context, entity *storage.Entities) (int64, error) {
 	const operation = "storage.mysql.Create"
 
-	query := `INSERT INTO entities (name, value, description, flag) VALUES (?, ?, ?, ?);`
+	query := "INSERT INTO entities (name, value, description, flag) VALUES (?, ?, ?, ?);"
 	result, err := s.db.ExecContext(ctx, query, entity.Name, entity.Value, entity.Description, entity.Flag)
 	if err != nil {
 		return 0, e.Wrap(operation, err)
