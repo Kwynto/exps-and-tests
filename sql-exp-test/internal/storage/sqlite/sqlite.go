@@ -40,22 +40,25 @@ func (s *Storage) Close() error {
 func (s *Storage) Init(ctx context.Context) error {
 	const operation = "storage.sqlite.Init"
 
-	query, err := s.db.Prepare(`
+	query := `
 	CREATE TABLE IF NOT EXISTS entities(
 		id INTEGER PRIMARY KEY,
 		name TEXT NOT NULL,
 		value DOUBLE,
 		description TEXT,
 		flag BOOL);
-	`)
+	`
+
+	stmt, err := s.db.Prepare(query)
 
 	if err != nil {
 		return e.Wrap(operation, err)
 	}
 
-	if _, err = query.Exec(); err != nil {
+	if _, err = stmt.Exec(); err != nil {
 		return e.Wrap(operation, err)
 	}
+	stmt.Close()
 
 	return nil
 }
@@ -64,8 +67,13 @@ func (s *Storage) Init(ctx context.Context) error {
 func (s *Storage) Create(ctx context.Context, entity *storage.Entities) (int64, error) {
 	const operation = "storage.sqlite.Create"
 
-	query := `INSERT INTO entities (name, value, description, flag) VALUES (?, ?, ?, ?);`
-	result, err := s.db.ExecContext(ctx, query, entity.Name, entity.Value, entity.Description, entity.Flag)
+	query := "INSERT INTO entities (name, value, description, flag) VALUES (?, ?, ?, ?);"
+	stmt, err := s.db.Prepare(query)
+	if err != nil {
+		return 0, e.Wrap(operation, err)
+	}
+
+	result, err := stmt.ExecContext(ctx, entity.Name, entity.Value, entity.Description, entity.Flag)
 	if err != nil {
 		return 0, e.Wrap(operation, err)
 	}
@@ -73,6 +81,8 @@ func (s *Storage) Create(ctx context.Context, entity *storage.Entities) (int64, 
 	if err != nil {
 		return 0, e.Wrap(operation, err)
 	}
+	stmt.Close()
+
 	return id, nil
 }
 
@@ -82,11 +92,17 @@ func (s *Storage) Read(ctx context.Context, id int64) (*storage.Entities, error)
 
 	var entity storage.Entities
 
-	query := `SELECT * FROM entities WHERE id = ? LIMIT 1;`
-	err := s.db.QueryRowContext(ctx, query, id).Scan(&entity.Id, &entity.Name, &entity.Value, &entity.Description, &entity.Flag)
+	query := "SELECT * FROM entities WHERE id = ? LIMIT 1;"
+	stmt, err := s.db.Prepare(query)
 	if err != nil {
 		return nil, e.Wrap(operation, err)
 	}
+
+	err = stmt.QueryRowContext(ctx, id).Scan(&entity.Id, &entity.Name, &entity.Value, &entity.Description, &entity.Flag)
+	if err != nil {
+		return nil, e.Wrap(operation, err)
+	}
+	stmt.Close()
 
 	return &entity, nil
 }
@@ -95,12 +111,16 @@ func (s *Storage) Read(ctx context.Context, id int64) (*storage.Entities, error)
 func (s *Storage) Update(ctx context.Context, entity *storage.Entities) error {
 	const operation = "storage.sqlite.Update"
 
-	// query := `UPDATE entities SET (name, value, description, flag) VALUES (?, ?, ?, ?) WHERE id = ?;`
-	query := `UPDATE entities SET name = ?, value = ?, description = ?, flag = ? WHERE id = ?;`
-	_, err := s.db.ExecContext(ctx, query, entity.Name, entity.Value, entity.Description, entity.Flag, entity.Id)
+	query := "UPDATE entities SET name = ?, value = ?, description = ?, flag = ? WHERE id = ?;"
+	stmt, err := s.db.Prepare(query)
 	if err != nil {
 		return e.Wrap(operation, err)
 	}
+	_, err = stmt.ExecContext(ctx, entity.Name, entity.Value, entity.Description, entity.Flag, entity.Id)
+	if err != nil {
+		return e.Wrap(operation, err)
+	}
+	stmt.Close()
 
 	return nil
 }
@@ -109,11 +129,17 @@ func (s *Storage) Update(ctx context.Context, entity *storage.Entities) error {
 func (s *Storage) Delete(ctx context.Context, entity *storage.Entities) error {
 	const operation = "storage.sqlite.Delete"
 
-	query := `DELETE FROM entities WHERE name = ? AND value = ? AND description = ? AND flag = ?;`
-	_, err := s.db.ExecContext(ctx, query, entity.Name, entity.Value, entity.Description, entity.Flag)
+	query := "DELETE FROM entities WHERE name = ? AND value = ? AND description = ? AND flag = ?;"
+	stmt, err := s.db.Prepare(query)
 	if err != nil {
 		return e.Wrap(operation, err)
 	}
+	_, err = stmt.ExecContext(ctx, entity.Name, entity.Value, entity.Description, entity.Flag)
+	if err != nil {
+		return e.Wrap(operation, err)
+	}
+	stmt.Close()
+
 	return nil
 }
 
@@ -121,11 +147,17 @@ func (s *Storage) Delete(ctx context.Context, entity *storage.Entities) error {
 func (s *Storage) DeleteId(ctx context.Context, id int64) error {
 	const operation = "storage.sqlite.DeleteId"
 
-	query := `DELETE FROM entities WHERE id = ?;`
-	_, err := s.db.ExecContext(ctx, query, id)
+	query := "DELETE FROM entities WHERE id = ?;"
+	stmt, err := s.db.Prepare(query)
 	if err != nil {
 		return e.Wrap(operation, err)
 	}
+	_, err = stmt.ExecContext(ctx, id)
+	if err != nil {
+		return e.Wrap(operation, err)
+	}
+	stmt.Close()
+
 	return nil
 }
 
@@ -135,11 +167,16 @@ func (s *Storage) IsExists(ctx context.Context, entity *storage.Entities) (bool,
 
 	var count int
 
-	query := `SELECT COUNT(*) FROM entities WHERE name = ? AND value = ? AND description = ? AND flag = ?;`
-	err := s.db.QueryRowContext(ctx, query, entity.Name, entity.Value, entity.Description, entity.Flag).Scan(&count)
+	query := "SELECT COUNT(*) FROM entities WHERE name = ? AND value = ? AND description = ? AND flag = ?;"
+	stmt, err := s.db.Prepare(query)
 	if err != nil {
 		return false, e.Wrap(operation, err)
 	}
+	err = stmt.QueryRowContext(ctx, entity.Name, entity.Value, entity.Description, entity.Flag).Scan(&count)
+	if err != nil {
+		return false, e.Wrap(operation, err)
+	}
+	stmt.Close()
 
 	return count > 0, nil
 }
@@ -150,11 +187,16 @@ func (s *Storage) IsExistsById(ctx context.Context, id int64) (bool, error) {
 
 	var count int
 
-	query := `SELECT COUNT(*) FROM entities WHERE id = ?;`
-	err := s.db.QueryRowContext(ctx, query, id).Scan(&count)
+	query := "SELECT COUNT(*) FROM entities WHERE id = ?;"
+	stmt, err := s.db.Prepare(query)
 	if err != nil {
 		return false, e.Wrap(operation, err)
 	}
+	err = stmt.QueryRowContext(ctx, id).Scan(&count)
+	if err != nil {
+		return false, e.Wrap(operation, err)
+	}
+	stmt.Close()
 
 	return count > 0, nil
 }
