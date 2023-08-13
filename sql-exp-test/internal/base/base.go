@@ -88,4 +88,26 @@ func Run(ctx context.Context, db storage.Storage) {
 	}
 	fmt.Println("Entity was deleted.")
 
+	fmt.Println("__ Good transaction __ Start")
+	entTx01 := storage.Entities{
+		Name:        "Mister Second",
+		Value:       2.0,
+		Description: "This man was a second man in the cinima.",
+		Flag:        false,
+	}
+
+	entTx02 := storage.Entities{
+		Name:        "Mister 3-th",
+		Value:       3.0,
+		Description: "This man was a 3-th man in the cinima.",
+		Flag:        true,
+	}
+
+	ids1, err := db.LotsOfRecords(ctx, &entTx01, &entTx02)
+	if err != nil {
+		log.Fatalln("Bad transaction:", err)
+	}
+	fmt.Println("Resived IDs:", ids1)
+	fmt.Println("__ Good transaction __ Finish")
+
 }

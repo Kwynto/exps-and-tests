@@ -21,6 +21,7 @@ type Storage interface {
 	DeleteId(ctx context.Context, id int64) error
 	IsExists(ctx context.Context, entity *Entities) (bool, error)
 	IsExistsById(ctx context.Context, id int64) (bool, error)
+	LotsOfRecords(ctx context.Context, entitis ...*Entities) ([]int64, error)
 }
 
 type Entities struct {

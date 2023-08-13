@@ -199,3 +199,47 @@ func (s *Storage) IsExistsById(ctx context.Context, id int64) (bool, error) {
 
 	return count > 0, nil
 }
+
+// Lots of records.
+func (s *Storage) LotsOfRecords(ctx context.Context, entitis ...*storage.Entities) ([]int64, error) {
+	const operation = "storage.mysql.LotsOfRecords"
+
+	var ids []int64 = []int64{}
+
+	query := "INSERT INTO entities (name, value, description, flag) VALUES (?, ?, ?, ?);"
+
+	tx, err := s.db.Begin()
+	if err != nil {
+		return nil, e.Wrap(operation, err)
+	}
+
+	stmt, err := tx.Prepare(query)
+	if err != nil {
+		_ = tx.Rollback()
+		return nil, e.Wrap(operation, err)
+	}
+
+	for _, entity := range entitis {
+		result, err := stmt.ExecContext(ctx, entity.Name, entity.Value, entity.Description, entity.Flag)
+		if err != nil {
+			_ = tx.Rollback()
+			return nil, e.Wrap(operation, err)
+		}
+
+		id, err := result.LastInsertId()
+		if err != nil {
+			_ = tx.Rollback()
+			return nil, e.Wrap(operation, err)
+		}
+
+		ids = append(ids, id)
+	}
+
+	stmt.Close()
+
+	if err := tx.Commit(); err != nil {
+		return nil, e.Wrap(operation, err)
+	}
+
+	return ids, nil
+}
