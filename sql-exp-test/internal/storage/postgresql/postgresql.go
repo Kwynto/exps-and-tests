@@ -1,4 +1,4 @@
-package sqlite
+package postgresql
 
 import (
 	"context"
@@ -6,18 +6,18 @@ import (
 	"sql-exp-test/internal/lib/e"
 	"sql-exp-test/internal/storage"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type Storage struct {
 	db *sql.DB
 }
 
-// New creates new SQLite storage.
+// New creates new PostgreSQL storage.
 func New(path string) (storage.Storage, error) {
-	const operation = "storage.sqlite.New"
+	const operation = "storage.postgresql.New"
 
-	db, err := sql.Open("sqlite3", path)
+	db, err := sql.Open("mysql", path)
 	if err != nil {
 		return nil, e.Wrap(operation, err)
 	}
@@ -29,20 +29,20 @@ func New(path string) (storage.Storage, error) {
 	return &Storage{db: db}, nil
 }
 
-// Close SQLite storage.
+// Close PostgreSQL storage.
 func (s *Storage) Close() error {
-	const operation = "storage.sqlite.Close"
+	const operation = "storage.postgresql.Close"
 
 	return e.WrapIfErr(operation, s.db.Close())
 }
 
 // Create table if not exists
 func (s *Storage) Init(ctx context.Context) error {
-	const operation = "storage.sqlite.Init"
+	const operation = "storage.postgresql.Init"
 
 	query := `
 	CREATE TABLE IF NOT EXISTS entities(
-		id INTEGER PRIMARY KEY,
+		id INTEGER PRIMARY KEY AUTO_INCREMENT,
 		name TEXT NOT NULL,
 		value DOUBLE,
 		description TEXT,
@@ -50,7 +50,6 @@ func (s *Storage) Init(ctx context.Context) error {
 	`
 
 	stmt, err := s.db.Prepare(query)
-
 	if err != nil {
 		return e.Wrap(operation, err)
 	}
@@ -65,7 +64,7 @@ func (s *Storage) Init(ctx context.Context) error {
 
 // Create entity to storage.
 func (s *Storage) Create(ctx context.Context, entity *storage.Entities) (int64, error) {
-	const operation = "storage.sqlite.Create"
+	const operation = "storage.postgresql.Create"
 
 	query := "INSERT INTO entities (name, value, description, flag) VALUES (?, ?, ?, ?);"
 	stmt, err := s.db.Prepare(query)
@@ -88,7 +87,7 @@ func (s *Storage) Create(ctx context.Context, entity *storage.Entities) (int64, 
 
 // Read entity from storage
 func (s *Storage) Read(ctx context.Context, id int64) (*storage.Entities, error) {
-	const operation = "storage.sqlite.Read"
+	const operation = "storage.postgresql.Read"
 
 	var entity storage.Entities
 
@@ -109,7 +108,7 @@ func (s *Storage) Read(ctx context.Context, id int64) (*storage.Entities, error)
 
 // Update entity to storage
 func (s *Storage) Update(ctx context.Context, entity *storage.Entities) error {
-	const operation = "storage.sqlite.Update"
+	const operation = "storage.postgresql.Update"
 
 	query := "UPDATE entities SET name = ?, value = ?, description = ?, flag = ? WHERE id = ?;"
 	stmt, err := s.db.Prepare(query)
@@ -127,7 +126,7 @@ func (s *Storage) Update(ctx context.Context, entity *storage.Entities) error {
 
 // Remove entity from storage by entity.
 func (s *Storage) Delete(ctx context.Context, entity *storage.Entities) error {
-	const operation = "storage.sqlite.Delete"
+	const operation = "storage.postgresql.Delete"
 
 	query := "DELETE FROM entities WHERE name = ? AND value = ? AND description = ? AND flag = ?;"
 	stmt, err := s.db.Prepare(query)
@@ -145,7 +144,7 @@ func (s *Storage) Delete(ctx context.Context, entity *storage.Entities) error {
 
 // Remove entity from storage by Id
 func (s *Storage) DeleteId(ctx context.Context, id int64) error {
-	const operation = "storage.sqlite.DeleteId"
+	const operation = "storage.postgresql.DeleteId"
 
 	query := "DELETE FROM entities WHERE id = ?;"
 	stmt, err := s.db.Prepare(query)
@@ -163,7 +162,7 @@ func (s *Storage) DeleteId(ctx context.Context, id int64) error {
 
 // IsExists checks if entity exists in storage.
 func (s *Storage) IsExists(ctx context.Context, entity *storage.Entities) (bool, error) {
-	const operation = "storage.sqlite.IsExists"
+	const operation = "storage.postgresql.IsExists"
 
 	var count int
 
@@ -183,7 +182,7 @@ func (s *Storage) IsExists(ctx context.Context, entity *storage.Entities) (bool,
 
 // IsExistsById checks if entity exists in storage by Id.
 func (s *Storage) IsExistsById(ctx context.Context, id int64) (bool, error) {
-	const operation = "storage.sqlite.IsExistsById"
+	const operation = "storage.postgresql.IsExistsById"
 
 	var count int
 
@@ -203,7 +202,7 @@ func (s *Storage) IsExistsById(ctx context.Context, id int64) (bool, error) {
 
 // Lots of records.
 func (s *Storage) LotsOfRecords(ctx context.Context, entitis ...*storage.Entities) ([]int64, error) {
-	const operation = "storage.sqlite.LotsOfRecords"
+	const operation = "storage.postgresql.LotsOfRecords"
 
 	var ids []int64 = []int64{}
 

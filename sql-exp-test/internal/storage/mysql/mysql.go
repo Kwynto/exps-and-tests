@@ -13,7 +13,7 @@ type Storage struct {
 	db *sql.DB
 }
 
-// New creates new SQLite storage.
+// New creates new MySQL storage.
 func New(path string) (storage.Storage, error) {
 	const operation = "storage.mysql.New"
 
@@ -29,7 +29,7 @@ func New(path string) (storage.Storage, error) {
 	return &Storage{db: db}, nil
 }
 
-// New creates new SQLite storage.
+// Close MySQL storage.
 func (s *Storage) Close() error {
 	const operation = "storage.mysql.Close"
 
