@@ -29,7 +29,7 @@ func New(path string) (storage.Storage, error) {
 	return &Storage{db: db}, nil
 }
 
-// New creates new SQLite storage.
+// Close SQLite storage.
 func (s *Storage) Close() error {
 	const operation = "storage.sqlite.Close"
 
@@ -55,7 +55,7 @@ func (s *Storage) Init(ctx context.Context) error {
 		return e.Wrap(operation, err)
 	}
 
-	if _, err = stmt.Exec(); err != nil {
+	if _, err = stmt.ExecContext(ctx); err != nil {
 		return e.Wrap(operation, err)
 	}
 	stmt.Close()

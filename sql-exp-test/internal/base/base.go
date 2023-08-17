@@ -2,10 +2,18 @@ package base
 
 import (
 	"context"
+	"crypto/rand"
 	"fmt"
 	"log"
+	"math/big"
 	"sql-exp-test/internal/storage"
 )
+
+// The RandInt() function generates a real random integer.
+func RandInt(min, max int64) int64 {
+	nBig, _ := rand.Int(rand.Reader, big.NewInt(max-min))
+	return nBig.Int64() + min
+}
 
 func Run(ctx context.Context, db storage.Storage) {
 
@@ -92,14 +100,14 @@ func Run(ctx context.Context, db storage.Storage) {
 	entTx01 := storage.Entities{
 		Name:        "Mister Second",
 		Value:       2.0,
-		Description: "This man was a second man in the cinima.",
+		Description: fmt.Sprint("This man was a second man in the cinima.", RandInt(1, 15000)),
 		Flag:        false,
 	}
 
 	entTx02 := storage.Entities{
 		Name:        "Mister 3-th",
 		Value:       3.0,
-		Description: "This man was a 3-th man in the cinima.",
+		Description: fmt.Sprint("This man was a 3-th man in the cinima.", RandInt(1, 15000)),
 		Flag:        true,
 	}
 
