@@ -16,7 +16,6 @@ func main() {
 	pgsqlLogin := "postgres"
 	// pgsqlPassword := "postgres"
 	pgsqlPassword := os.Getenv("POSTGRESQL_PASSWORD")
-	// pgsqlProtocol := "tcp"
 	pgsqlHost := "localhost"
 	pgsqlPort := "5432"
 	pgsqlDB := "entities"

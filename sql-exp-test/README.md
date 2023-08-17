@@ -57,4 +57,7 @@ MYSQL_PASSWORD=root go run ./cmd/mysql/main.go
 
 docker run --name postgresql -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres:latest
 
+Need create DB "entities"
+
+If you use "DBeaver", then connect to "postgres://postgres:postgres@localhost:5432/entities" 
 
