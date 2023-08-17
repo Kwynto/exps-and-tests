@@ -13,15 +13,17 @@ import (
 func main() {
 	fmt.Println("Start testing PostgreSQL...")
 
-	pgsqlLogin := "root"
-	// pgsqlPassword := "root"
+	pgsqlLogin := "postgres"
+	// pgsqlPassword := "postgres"
 	pgsqlPassword := os.Getenv("POSTGRESQL_PASSWORD")
-	pgsqlProtocol := "tcp"
+	// pgsqlProtocol := "tcp"
 	pgsqlHost := "localhost"
-	pgsqlPort := "3306"
+	pgsqlPort := "5432"
 	pgsqlDB := "entities"
+	sslmode := "disable"
 
-	path := fmt.Sprintf("%s:%s@%s(%s:%s)/%s", pgsqlLogin, pgsqlPassword, pgsqlProtocol, pgsqlHost, pgsqlPort, pgsqlDB)
+	// urlExample := "postgres://username:password@localhost:5432/database_name?sslmode=disable"
+	path := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=%s", pgsqlLogin, pgsqlPassword, pgsqlHost, pgsqlPort, pgsqlDB, sslmode)
 
 	db, err := postgresql.New(path)
 	if err != nil {
