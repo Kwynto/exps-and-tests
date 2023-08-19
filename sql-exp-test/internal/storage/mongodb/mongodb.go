@@ -53,32 +53,12 @@ func (s *Storage) Close() error {
 
 // Create table if not exists
 func (s *Storage) Init(ctx context.Context) error {
-	const operation = "storage.mongodb.Init"
+	// const operation = "storage.mongodb.Init"
 
 	colEntities := s.db.Database("entities").Collection("entities")
 	s.colEntities = colEntities
 
 	return nil
-}
-
-func (s *Storage) getId(ctx context.Context, entity *storage.Entities) (any, error) {
-	const operation = "storage.mongodb.getId"
-	var result tEnt
-
-	err := s.colEntities.FindOne(ctx,
-		bson.M{
-			"name":        entity.Name,
-			"value":       entity.Value,
-			"description": entity.Description,
-			"flag":        entity.Flag,
-		}).Decode(&result)
-	if err == mongo.ErrNoDocuments {
-		return nil, e.Wrap(operation, fmt.Errorf("record does not exist"))
-	} else if err != nil {
-		return nil, e.Wrap(operation, err)
-	}
-
-	return result.Id, nil
 }
 
 // Create entity to storage.
@@ -134,10 +114,12 @@ func (s *Storage) Update(ctx context.Context, entity *storage.Entities) error {
 			"_id": entity.Id,
 		},
 		bson.M{
-			"name":        entity.Name,
-			"value":       entity.Value,
-			"description": entity.Description,
-			"flag":        entity.Flag,
+			"$set": bson.M{
+				"name":        entity.Name,
+				"value":       entity.Value,
+				"description": entity.Description,
+				"flag":        entity.Flag,
+			},
 		})
 	if err != nil {
 		return e.Wrap(operation, err)
@@ -181,7 +163,7 @@ func (s *Storage) DeleteId(ctx context.Context, id any) error {
 func (s *Storage) IsExists(ctx context.Context, entity *storage.Entities) (bool, error) {
 	const operation = "storage.mongodb.IsExists"
 
-	_, err := s.colEntities.Find(ctx, bson.M{
+	res, err := s.colEntities.Find(ctx, bson.M{
 		"name":        entity.Name,
 		"value":       entity.Value,
 		"description": entity.Description,
@@ -191,21 +173,25 @@ func (s *Storage) IsExists(ctx context.Context, entity *storage.Entities) (bool,
 		return false, e.Wrap(operation, err)
 	}
 
-	return true, nil
+	count := res.RemainingBatchLength()
+
+	return count > 0, nil
 }
 
 // IsExistsById checks if entity exists in storage by Id.
 func (s *Storage) IsExistsById(ctx context.Context, id any) (bool, error) {
 	const operation = "storage.mongodb.IsExistsById"
 
-	_, err := s.colEntities.Find(ctx, bson.M{
+	res, err := s.colEntities.Find(ctx, bson.M{
 		"_id": id,
 	})
 	if err != nil {
 		return false, e.Wrap(operation, err)
 	}
 
-	return true, nil
+	count := res.RemainingBatchLength()
+
+	return count > 0, nil
 }
 
 // Lots of records.
@@ -214,48 +200,22 @@ func (s *Storage) LotsOfRecords(ctx context.Context, entitis ...*storage.Entitie
 
 	var ids []any = []any{}
 
-	query := "INSERT INTO entities (name, value, description, flag) VALUES ($1, $2, $3, $4);"
-
-	tx, err := s.db.Begin()
-	if err != nil {
-		return nil, e.Wrap(operation, err)
-	}
-
-	stmt, err := tx.Prepare(query)
-	if err != nil {
-		_ = tx.Rollback()
-		return nil, e.Wrap(operation, err)
-	}
-
 	for _, entity := range entitis {
-		_, err := stmt.ExecContext(ctx, entity.Name, entity.Value, entity.Description, entity.Flag)
+
+		res, err := s.colEntities.InsertOne(ctx,
+			bson.M{
+				"name":        entity.Name,
+				"value":       entity.Value,
+				"description": entity.Description,
+				"flag":        entity.Flag,
+			})
 		if err != nil {
-			_ = tx.Rollback()
 			return nil, e.Wrap(operation, err)
 		}
 
-		var id int64
-
-		query := "SELECT id FROM entities WHERE name = $1 AND value = $2 AND description = $3 AND flag = $4;"
-		stmt2, err := tx.Prepare(query)
-		if err != nil {
-			_ = tx.Rollback()
-			return nil, e.Wrap(operation, err)
-		}
-		err = stmt2.QueryRowContext(ctx, entity.Name, entity.Value, entity.Description, entity.Flag).Scan(&id)
-		if err != nil {
-			_ = tx.Rollback()
-			return nil, e.Wrap(operation, err)
-		}
-		stmt2.Close()
+		id := res.InsertedID
 
 		ids = append(ids, id)
-	}
-
-	stmt.Close()
-
-	if err := tx.Commit(); err != nil {
-		return nil, e.Wrap(operation, err)
 	}
 
 	return ids, nil
