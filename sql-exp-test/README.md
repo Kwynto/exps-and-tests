@@ -55,9 +55,29 @@ MYSQL_PASSWORD=root go run ./cmd/mysql/main.go
 
 ## PostgreSQL
 
+```bash
 docker run --name postgresql -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres:latest
+```
 
 Need create DB "entities"
 
 If you use "DBeaver", then connect to "postgres://postgres:postgres@localhost:5432/entities" 
 
+
+## MongoDB
+
+```bash
+docker run --name mongodb -p 27017:27017 -d mongo:latest
+```
+
+For Celeron CPU: 
+
+```bash
+docker run --name mongodb -p 27017:27017 -d circleci/mongo:4.0-xenial-ram
+```
+
+or 
+
+```bash
+docker run --name mongodb -p 27017:27017 -d yowoo/my-mongo:latest
+```

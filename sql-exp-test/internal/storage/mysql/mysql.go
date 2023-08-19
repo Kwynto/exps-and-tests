@@ -63,7 +63,7 @@ func (s *Storage) Init(ctx context.Context) error {
 }
 
 // Create entity to storage.
-func (s *Storage) Create(ctx context.Context, entity *storage.Entities) (int64, error) {
+func (s *Storage) Create(ctx context.Context, entity *storage.Entities) (any, error) {
 	const operation = "storage.mysql.Create"
 
 	query := "INSERT INTO entities (name, value, description, flag) VALUES (?, ?, ?, ?);"
@@ -86,7 +86,7 @@ func (s *Storage) Create(ctx context.Context, entity *storage.Entities) (int64, 
 }
 
 // Read entity from storage
-func (s *Storage) Read(ctx context.Context, id int64) (*storage.Entities, error) {
+func (s *Storage) Read(ctx context.Context, id any) (*storage.Entities, error) {
 	const operation = "storage.mysql.Read"
 
 	var entity storage.Entities
@@ -143,7 +143,7 @@ func (s *Storage) Delete(ctx context.Context, entity *storage.Entities) error {
 }
 
 // Remove entity from storage by Id
-func (s *Storage) DeleteId(ctx context.Context, id int64) error {
+func (s *Storage) DeleteId(ctx context.Context, id any) error {
 	const operation = "storage.mysql.DeleteId"
 
 	query := "DELETE FROM entities WHERE id = ?;"
@@ -181,7 +181,7 @@ func (s *Storage) IsExists(ctx context.Context, entity *storage.Entities) (bool,
 }
 
 // IsExistsById checks if entity exists in storage by Id.
-func (s *Storage) IsExistsById(ctx context.Context, id int64) (bool, error) {
+func (s *Storage) IsExistsById(ctx context.Context, id any) (bool, error) {
 	const operation = "storage.mysql.IsExistsById"
 
 	var count int
@@ -201,10 +201,10 @@ func (s *Storage) IsExistsById(ctx context.Context, id int64) (bool, error) {
 }
 
 // Lots of records.
-func (s *Storage) LotsOfRecords(ctx context.Context, entitis ...*storage.Entities) ([]int64, error) {
+func (s *Storage) LotsOfRecords(ctx context.Context, entitis ...*storage.Entities) ([]any, error) {
 	const operation = "storage.mysql.LotsOfRecords"
 
-	var ids []int64 = []int64{}
+	var ids []any = []any{}
 
 	query := "INSERT INTO entities (name, value, description, flag) VALUES (?, ?, ?, ?);"
 

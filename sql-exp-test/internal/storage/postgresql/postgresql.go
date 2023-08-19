@@ -64,9 +64,9 @@ func (s *Storage) Init(ctx context.Context) error {
 	return nil
 }
 
-func (s *Storage) getId(ctx context.Context, entity *storage.Entities) (int64, error) {
+func (s *Storage) getId(ctx context.Context, entity *storage.Entities) (any, error) {
 	const operation = "storage.postgresql.getId"
-	var id int64
+	var id any
 
 	query := "SELECT id FROM entities WHERE name = $1 AND value = $2 AND description = $3 AND flag = $4;"
 	stmt, err := s.db.Prepare(query)
@@ -83,7 +83,7 @@ func (s *Storage) getId(ctx context.Context, entity *storage.Entities) (int64, e
 }
 
 // Create entity to storage.
-func (s *Storage) Create(ctx context.Context, entity *storage.Entities) (int64, error) {
+func (s *Storage) Create(ctx context.Context, entity *storage.Entities) (any, error) {
 	const operation = "storage.postgresql.Create"
 
 	query := "INSERT INTO entities (name, value, description, flag) VALUES ($1, $2, $3, $4);"
@@ -108,7 +108,7 @@ func (s *Storage) Create(ctx context.Context, entity *storage.Entities) (int64, 
 }
 
 // Read entity from storage
-func (s *Storage) Read(ctx context.Context, id int64) (*storage.Entities, error) {
+func (s *Storage) Read(ctx context.Context, id any) (*storage.Entities, error) {
 	const operation = "storage.postgresql.Read"
 
 	var entity storage.Entities
@@ -165,7 +165,7 @@ func (s *Storage) Delete(ctx context.Context, entity *storage.Entities) error {
 }
 
 // Remove entity from storage by Id
-func (s *Storage) DeleteId(ctx context.Context, id int64) error {
+func (s *Storage) DeleteId(ctx context.Context, id any) error {
 	const operation = "storage.postgresql.DeleteId"
 
 	query := "DELETE FROM entities WHERE id = $1;"
@@ -203,7 +203,7 @@ func (s *Storage) IsExists(ctx context.Context, entity *storage.Entities) (bool,
 }
 
 // IsExistsById checks if entity exists in storage by Id.
-func (s *Storage) IsExistsById(ctx context.Context, id int64) (bool, error) {
+func (s *Storage) IsExistsById(ctx context.Context, id any) (bool, error) {
 	const operation = "storage.postgresql.IsExistsById"
 
 	var count int
@@ -223,10 +223,10 @@ func (s *Storage) IsExistsById(ctx context.Context, id int64) (bool, error) {
 }
 
 // Lots of records.
-func (s *Storage) LotsOfRecords(ctx context.Context, entitis ...*storage.Entities) ([]int64, error) {
+func (s *Storage) LotsOfRecords(ctx context.Context, entitis ...*storage.Entities) ([]any, error) {
 	const operation = "storage.postgresql.LotsOfRecords"
 
-	var ids []int64 = []int64{}
+	var ids []any = []any{}
 
 	query := "INSERT INTO entities (name, value, description, flag) VALUES ($1, $2, $3, $4);"
 
