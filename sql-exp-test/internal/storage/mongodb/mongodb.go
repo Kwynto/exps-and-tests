@@ -17,14 +17,6 @@ type Storage struct {
 	colEntities *mongo.Collection
 }
 
-type tEnt struct {
-	Id          any     `bson:"_id"`
-	Name        string  `bson:"name"`
-	Value       float64 `bson:"value"`
-	Description string  `bson:"description"`
-	Flag        bool    `bson:"flag"`
-}
-
 // New creates new MongoDB storage.
 func New(path string) (storage.Storage, error) {
 	const operation = "storage.mongodb.New"
@@ -85,7 +77,7 @@ func (s *Storage) Create(ctx context.Context, entity *storage.Entities) (any, er
 func (s *Storage) Read(ctx context.Context, id any) (*storage.Entities, error) {
 	const operation = "storage.mongodb.Read"
 
-	var ent tEnt
+	var ent storage.Entities
 
 	err := s.colEntities.FindOne(ctx, bson.M{
 		"_id": id,
@@ -96,13 +88,7 @@ func (s *Storage) Read(ctx context.Context, id any) (*storage.Entities, error) {
 		return nil, e.Wrap(operation, err)
 	}
 
-	return &storage.Entities{
-		Id:          ent.Id,
-		Name:        ent.Name,
-		Value:       ent.Value,
-		Description: ent.Description,
-		Flag:        ent.Flag,
-	}, nil
+	return &ent, nil
 }
 
 // Update entity to storage
