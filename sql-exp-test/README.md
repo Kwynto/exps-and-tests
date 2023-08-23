@@ -86,6 +86,10 @@ docker run --name mongodb -p 27017:27017 -d yowoo/my-mongo:latest
 ## Clickhouse
 
 ```bash
-docker run --name clickhouse -p 8123:8123 -p 9000:9000 -d yandex/clickhouse-server
+docker pull yandex/clickhouse-server:latest
+```
+
+```bash
+docker run --name clickhouse -p 8123:8123 -p 9000:9000 -d yandex/clickhouse-server:latest
 ```
 

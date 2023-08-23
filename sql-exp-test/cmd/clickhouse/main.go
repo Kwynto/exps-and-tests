@@ -6,25 +6,25 @@ import (
 	"log"
 	"os"
 	"sql-exp-test/internal/base"
-	"sql-exp-test/internal/storage/postgresql"
+	"sql-exp-test/internal/storage/clickhouse"
 	"time"
 )
 
 func main() {
-	fmt.Println("Start testing ClickHouse...")
+	fmt.Println("Start testing MySQL...")
 
-	pgsqlLogin := "postgres"
-	// pgsqlPassword := "postgres"
-	pgsqlPassword := os.Getenv("POSTGRESQL_PASSWORD")
-	pgsqlHost := "localhost"
-	pgsqlPort := "5432"
-	pgsqlDB := "entities"
-	sslmode := "disable"
+	mysqlLogin := "root"
+	// mysqlPassword := "root"
+	mysqlPassword := os.Getenv("MYSQL_PASSWORD")
+	mysqlProtocol := "tcp"
+	mysqlHost := "localhost"
+	mysqlPort := "3306"
+	mysqlDB := "entities"
 
 	// urlExample := "postgres://username:password@localhost:5432/database_name?sslmode=disable"
-	path := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=%s", pgsqlLogin, pgsqlPassword, pgsqlHost, pgsqlPort, pgsqlDB, sslmode)
+	path := fmt.Sprintf("%s:%s@%s(%s:%s)/%s", mysqlLogin, mysqlPassword, mysqlProtocol, mysqlHost, mysqlPort, mysqlDB)
 
-	db, err := postgresql.New(path)
+	db, err := clickhouse.New(path)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -35,5 +35,5 @@ func main() {
 
 	base.Run(ctx, db)
 
-	fmt.Println("Test of ClickHouse was stoped.")
+	fmt.Println("Test of MySQL was stoped.")
 }
