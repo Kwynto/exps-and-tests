@@ -235,6 +235,12 @@ func (s *Storage) LotsOfRecords(ctx context.Context, entitis ...*storage.Entitie
 		return nil, e.Wrap(operation, err)
 	}
 
+	defer func() {
+		if err != nil {
+			_ = tx.Rollback()
+		}
+	}()
+
 	stmt, err := tx.Prepare(query)
 	if err != nil {
 		_ = tx.Rollback()

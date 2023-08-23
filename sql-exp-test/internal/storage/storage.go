@@ -25,9 +25,9 @@ type Storage interface {
 }
 
 type Entities struct {
-	Id          any
-	Name        string
-	Value       float64
-	Description string
-	Flag        bool
+	Id          any     `bson:"_id"`
+	Name        string  `bson:"name"`
+	Value       float64 `bson:"value"`
+	Description string  `bson:"description"`
+	Flag        bool    `bson:"flag"`
 }
