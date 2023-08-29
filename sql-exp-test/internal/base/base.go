@@ -17,7 +17,9 @@ func RandInt(min, max int64) int64 {
 
 func Run(ctx context.Context, db storage.Storage) {
 
-	db.Init(ctx)
+	if err := db.Init(ctx); err != nil {
+		log.Fatalln(err)
+	}
 
 	// ent01 := storage.Entities{
 	// 	Name:        "Mister First",
