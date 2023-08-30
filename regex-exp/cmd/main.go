@@ -58,6 +58,7 @@ func main() {
 	fmt.Println(exp01.MatchString(qry))
 
 	for i, match := range exp01.FindStringSubmatch(qry) {
+		match = strings.TrimSpace(match)
 		fmt.Println(match, "found at index", i)
 	}
 
