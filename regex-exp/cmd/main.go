@@ -41,12 +41,14 @@ func main() {
 	endexp := regexp.MustCompile(`(.+);`)
 
 	if endexp.MatchString(qry) {
-		var q2 string = ""
-		for i, match := range endexp.FindStringSubmatch(qry) {
-			if i == 1 {
-				q2 = match
-			}
-		}
+		// var q2 string = ""
+		// for i, match := range endexp.FindStringSubmatch(qry) {
+		// 	if i == 1 {
+		// 		q2 = match
+		// 	}
+		// }
+		// matchs := endexp.FindStringSubmatch(qry)
+		q2 := endexp.FindStringSubmatch(qry)[1]
 		fmt.Printf("%v\n", q2)
 		qry = q2
 	}
