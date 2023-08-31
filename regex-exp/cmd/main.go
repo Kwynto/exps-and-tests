@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"regexp"
 	"strings"
 )
@@ -38,22 +39,32 @@ func main() {
 
 	fmt.Printf("\n---- ---- ---- ---- ---- \n---- ---- ---- ---- ---- \n\n")
 
-	endexp := regexp.MustCompile(`(.+);`)
+	// endexp := regexp.MustCompile(`(.+);`)
+	endexp, err := regexp.Compile(`(.+);`)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	if endexp.MatchString(qry) {
-		var q2 string = ""
-		for i, match := range endexp.FindStringSubmatch(qry) {
-			if i == 1 {
-				q2 = match
-			}
-		}
+		// var q2 string = ""
+		// for i, match := range endexp.FindStringSubmatch(qry) {
+		// 	if i == 1 {
+		// 		q2 = match
+		// 	}
+		// }
+		// matchs := endexp.FindStringSubmatch(qry)
+		q2 := endexp.FindStringSubmatch(qry)[1]
 		fmt.Printf("%v\n", q2)
 		qry = q2
 	}
 
 	fmt.Printf("\n---- ---- ---- ---- ---- \n---- ---- ---- ---- ---- \n\n")
 
-	exp01 := regexp.MustCompile(`(?m)^[sS][eE][lL][eE][cC][tT](.+)[fF][rR][oO][mM](.+)[wW][hH][eE][rR][eE](.+)[lL][iI][mM][iI][tT](.+)`)
+	// exp01 := regexp.MustCompile(`(?m)^[sS][eE][lL][eE][cC][tT](.+)[fF][rR][oO][mM](.+)[wW][hH][eE][rR][eE](.+)[lL][iI][mM][iI][tT](.+)`)
+	exp01, err := regexp.Compile(`(?m)^[sS][eE][lL][eE][cC][tT](.+)[fF][rR][oO][mM](.+)[wW][hH][eE][rR][eE](.+)[lL][iI][mM][iI][tT](.+)`)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	fmt.Println(exp01.MatchString(qry))
 
