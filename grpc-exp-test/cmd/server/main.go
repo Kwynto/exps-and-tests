@@ -10,6 +10,7 @@ import (
 )
 
 type MessageServer struct {
+	ms.UnimplementedMessageServiceServer
 }
 
 func (MessageServer) SayIt(ctx context.Context, r *ms.Request) (*ms.Response, error) {
