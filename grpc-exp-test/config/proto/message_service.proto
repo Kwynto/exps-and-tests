@@ -16,4 +16,4 @@ service MessageService {
     rpc SayIt (Request) returns (Response);
 }
 
-option go_package = "./internal/protos/message_service";
+option go_package = "./internal/proto/message_service";

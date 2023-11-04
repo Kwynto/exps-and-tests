@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	ms "grpc-exp-test/internal/protos/message_service"
+	ms "grpc-exp-test/internal/proto/message_service"
 	"net"
 
 	"google.golang.org/grpc"
